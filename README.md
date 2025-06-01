@@ -53,7 +53,7 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
    Use the 3d files in 3d endo plan for reference to build the body.
    Now for the Hinges and Joints:
    You can use simple Hinges and Joints. No need for gears at all!
-   Just search for simple hinges AND Movable joints in google and you will see tons of them!
+   Just search for simple hinges AND Movable joints in Robotics on Google, and you will see tons of them!
    
 
 ---
