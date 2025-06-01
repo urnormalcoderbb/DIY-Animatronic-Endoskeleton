@@ -49,7 +49,12 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
    Flash the provided code to both ESP32s Thonny IDE or any ESP32-Micropython-compatible platform.
 
 4. **Build the endoskeleton:**  
-   (3D files and full build guide coming soon! For now, use foam, bamboo skewers, and cardboard as temporary structure.)
+   (3D files and full build guide coming soon! For now, use foam, bamboo skewers, and cardboard as a temporary structure.)
+   Use the 3d files in 3d endo plan for reference to build the body.
+   Now for the Hinges and Joints:
+   You can use simple Hinges and Joints. No need for gears at all!
+   Just search for simple hinges AND Movable joints in google and you will see tons of them!
+   
 
 ---
 
@@ -57,7 +62,7 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
 
 - Power on both ESP32s.
 - Use the controller ESP32 (with joysticks) to send commands wirelessly to the endoskeleton ESP32.
-- Observe servo movements as per your programmed logic.
+- Please make sure to observe servo movements according to your programmed logic.
 
 ---
 
