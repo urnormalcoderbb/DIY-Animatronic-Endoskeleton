@@ -64,6 +64,7 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
 ## Usage
 
 - Power on both ESP32s.
+- Note: Don't forget to give power to the Servo Driver, and don't forget to use the multimeter to measure voltage!
 - Use the controller ESP32 (with joysticks) to send commands wirelessly to the endoskeleton ESP32.
 - Please make sure to observe servo movements according to your programmed logic.
 
