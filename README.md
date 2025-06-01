@@ -1,13 +1,15 @@
 # DIY Animatronic Endoskeleton
 
 Welcome to the DIY Animatronic Endoskeleton project!  
-This project guides you through building your own animatronic endoskeleton using affordable, easy-to-find components—even if you have no prior experience with robotics or electronics.
+This project guides you through building your own animatronic endoskeleton, which can wave hi to people using affordable, easy-to-find components—even if you have no prior experience with robotics or electronics!
 
 **Key Features:**
 - Wireless control using two ESP32 WROOM microcontrollers.
 - Designed for hobbyists, makers, and anyone interested in animatronics.
+- Can wave hi to people.
+- A Jaw which can move. You can configure how it moves in the receiver code.
 - 3D-printable files for the endoskeleton (coming soon!).
-- Step-by-step instructions and code provided.
+- Step-by-step instructions(Coming very soon!) and the code provided.
 
 ---
 
