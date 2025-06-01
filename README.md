@@ -46,7 +46,7 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
    Gather your ESP32 modules, servos, and other listed materials.
 
 3. **Upload the code:**  
-   Flash the provided code to both ESP32s using the Arduino IDE or any ESP32-compatible platform.
+   Flash the provided code to both ESP32s Thonny IDE or any ESP32-Micropython-compatible platform.
 
 4. **Build the endoskeleton:**  
    (3D files and full build guide coming soon! For now, use foam, bamboo skewers, and cardboard as temporary structure.)
