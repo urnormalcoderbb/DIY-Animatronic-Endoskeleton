@@ -33,6 +33,7 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
 - Bamboo skewers (for now, for structure/support)
 - Cardboard (for now, to help build the frame or for prototyping)
 - 1 × Multimeter (**compulsory for safety!**)
+- A few paper clips as servo linkages
 
 ---
 
