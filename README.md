@@ -73,7 +73,7 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
 ---
 
 ## Test Codes
-https://github.com/urnormalcoderbb/DIY-Animatronic-Endoskeleton/tree/main/tests
+[test codes](https://github.com/urnormalcoderbb/DIY-Animatronic-Endoskeleton/tree/main/tests)
 
 This section contains test codes to help you verify your hardware and connections before assembling the full project.
 
