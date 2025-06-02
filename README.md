@@ -9,7 +9,7 @@ This project guides you through building your own animatronic endoskeleton, whic
 - Can wave hi to people.
 - A Jaw which can move. You can configure how it moves in the receiver code.
 - 3D-printable files for the endoskeleton (coming soon!).
-- Step-by-step instructions (Coming very soon!) and the code provided.
+- Step-by-step instructions and the code provided.
 
 ---
 
@@ -52,11 +52,14 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
    Flash the provided code to both ESP32s using Thonny IDE or any ESP32-Micropython-compatible platform.
 
 4. **Build the endoskeleton:**  
-   (3D files and full build guide coming soon! For now, use foam, bamboo skewers, and cardboard as a temporary structure.)  
-   Use the 3d files in 3d endo plan for reference to build the body.  
-   Now for the Hinges and Joints:  
-   You can use simple Hinges and Joints. No need for gears at all!  
-   Just search for simple hinges AND Movable joints in Robotics on Google, and you will see tons of them!
+   **Please refer to the [build plans](https://github.com/urnormalcoderbb/DIY-Animatronic-Endoskeleton/tree/main/Endo%20build%20plan%20PDFS) directory for detailed reference and step-by-step guidance!**  
+   The build plan offers diagrams, part lists, and assembly instructions.  
+   If you want to experiment or prototype, you can still use foam, bamboo skewers, and cardboard as a temporary structure.  
+   Use the 3D files (in `3d endo plan`) for reference to build the body.  
+   For Hinges and Joints:  
+   You can use simple hinges and joints—no need for gears at all!  
+   Just search for simple hinges AND movable joints in robotics on Google, and you will see tons of them!
+   Or you can take a look at the DIY hinges and joints PDF in the Endo Build Plan PDFS
 
 ---
 
@@ -82,7 +85,7 @@ This section contains test codes to help you verify your hardware and connection
 
 - [x] Initial wireless code for ESP32s
 - [ ] Provide 3D printable files
-- [ ] Full build instructions with images
+- [x] Full build instructions
 - [ ] Expand features (sensor integration, more DOF, etc.)
 - [x] Add comprehensive test codes and documentation
 
