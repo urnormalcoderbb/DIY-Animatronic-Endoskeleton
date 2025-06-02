@@ -11,7 +11,7 @@ e = espnow.ESPNow()
 e.active(True)
 
 # Replace with the receiver's MAC address
-peer = b'\xec\xe34\xdb\x96D'  # <-- Use actual MAC
+peer = b'\XXX\XXXX\XXX\XXX'  # <-- Use actual MAC
 e.add_peer(peer)
 
 print("Sending messages...")
