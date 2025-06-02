@@ -84,7 +84,7 @@ This section contains test codes to help you verify your hardware and connection
 - [ ] Provide 3D printable files
 - [ ] Full build instructions with images
 - [ ] Expand features (sensor integration, more DOF, etc.)
-- [ ] Add comprehensive test codes and documentation
+- [x] Add comprehensive test codes and documentation
 
 ---
 
