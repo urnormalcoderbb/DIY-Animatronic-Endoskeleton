@@ -70,19 +70,8 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
 ---
 
 ## Test Codes
-
+https://github.com/urnormalcoderbb/DIY-Animatronic-Endoskeleton/tree/main/tests
 This section contains test codes to help you verify your hardware and connections before assembling the full project.
-
-<!--
-Paste your test code samples and usage instructions here.
-Example:
-```
-# Example: Servo Test Code
-import machine
-import time
-# ...rest of your test code
-```
--->
 
 *Test codes for servos, wireless communication, and other modules will be provided here. Please check back soon or contribute your own!*
 
