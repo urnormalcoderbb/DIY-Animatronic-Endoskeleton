@@ -1,7 +1,7 @@
 # DIY Animatronic Endoskeleton
 
 Welcome to the DIY Animatronic Endoskeleton project!  
-This project guides you through building your own animatronic endoskeleton, which can wave hi to people using affordable, easy-to-find components—even if you have no prior experience with robotics or electronics!
+This project guides you through building your own animatronic endoskeleton, which can wave hi to people using affordable, easy-to-find components—even if you have no prior experience with robotics.
 
 **Key Features:**
 - Wireless control using two ESP32 WROOM microcontrollers.
@@ -9,7 +9,7 @@ This project guides you through building your own animatronic endoskeleton, whic
 - Can wave hi to people.
 - A Jaw which can move. You can configure how it moves in the receiver code.
 - 3D-printable files for the endoskeleton (coming soon!).
-- Step-by-step instructions(Coming very soon!) and the code provided.
+- Step-by-step instructions (Coming very soon!) and the code provided.
 
 ---
 
@@ -49,15 +49,14 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
    Gather your ESP32 modules, servos, and other listed materials.
 
 3. **Upload the code:**  
-   Flash the provided code to both ESP32s Thonny IDE or any ESP32-Micropython-compatible platform.
+   Flash the provided code to both ESP32s using Thonny IDE or any ESP32-Micropython-compatible platform.
 
 4. **Build the endoskeleton:**  
-   (3D files and full build guide coming soon! For now, use foam, bamboo skewers, and cardboard as a temporary structure.)
-   Use the 3d files in 3d endo plan for reference to build the body.
-   Now for the Hinges and Joints:
-   You can use simple Hinges and Joints. No need for gears at all!
+   (3D files and full build guide coming soon! For now, use foam, bamboo skewers, and cardboard as a temporary structure.)  
+   Use the 3d files in 3d endo plan for reference to build the body.  
+   Now for the Hinges and Joints:  
+   You can use simple Hinges and Joints. No need for gears at all!  
    Just search for simple hinges AND Movable joints in Robotics on Google, and you will see tons of them!
-   
 
 ---
 
@@ -70,12 +69,32 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
 
 ---
 
+## Test Codes
+
+This section contains test codes to help you verify your hardware and connections before assembling the full project.
+
+<!--
+Paste your test code samples and usage instructions here.
+Example:
+```
+# Example: Servo Test Code
+import machine
+import time
+# ...rest of your test code
+```
+-->
+
+*Test codes for servos, wireless communication, and other modules will be provided here. Please check back soon or contribute your own!*
+
+---
+
 ## Roadmap
 
 - [x] Initial wireless code for ESP32s
 - [ ] Provide 3D printable files
 - [ ] Full build instructions with images
 - [ ] Expand features (sensor integration, more DOF, etc.)
+- [ ] Add comprehensive test codes and documentation
 
 ---
 
