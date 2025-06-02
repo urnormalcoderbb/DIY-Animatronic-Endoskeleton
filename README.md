@@ -58,8 +58,7 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
    Use the 3D files (in `3d endo plan`) for reference to build the body.  
    For Hinges and Joints:  
    You can use simple hinges and joints—no need for gears at all!  
-   Just search for simple hinges AND movable joints in robotics on Google, and you will see tons of them!
-
+   Just search for simple hinges AND movable joints in robotics on Google, and you will see tons of them! 
    Or you can take a look at the Ultimate Animatronic Endoskeleton Project Plan P3 PDF in the [Endo Build Plan PDFS file](https://github.com/urnormalcoderbb/DIY-Animatronic-Endoskeleton/blob/main/Endo%20build%20plan%20PDFS/The%20Ultimate%20Animatronic%20Endoskeleton%20Project%20Plan%20P3.pdf).
 
 ---
