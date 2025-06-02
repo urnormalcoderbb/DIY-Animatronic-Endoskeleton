@@ -5,7 +5,7 @@ import random
 import ujson
 
 # Configuration
-BROADCAST_PEER = b'\xec\xe34\xdb\x96D'  # Use broadcast; set to a specific MAC if needed
+BROADCAST_PEER = b'\XXX\XXXX\XXX\XXXX'  # Use broadcast; set to a specific MAC if needed
 
 # ESP-NOW setup
 wlan = network.WLAN(network.STA_IF)
