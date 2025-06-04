@@ -73,7 +73,7 @@ def stop_all_servos():
     print("Setting all servos to neutral position...")
     for ch in range(10):
         set_servo_angle(ch, 90)
-    print("✓ All 10 servos stopped successfully")
+    print("All 10 servos stopped successfully")
 
 def perform_wave_sequence():
     """Perform waving animation sequence."""
