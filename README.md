@@ -53,7 +53,7 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
 
 4. **Build the endoskeleton:**  
    **Please refer to the [build plans](https://github.com/urnormalcoderbb/DIY-Animatronic-Endoskeleton/tree/main/Endo%20build%20plan%20PDFS) directory for detailed reference and step-by-step guidance!**  
-   The build plan offers diagrams(coming soon!), part lists, and assembly instructions.  
+   The build plan offers diagrams(coming soon!), part lists, and assembly instructions.The main file includes a schematics diagram too.  
    If you want to experiment or prototype, you can still use foam, bamboo skewers, and cardboard as a temporary structure.  
    Use the 3D files (in `3d endo plan`) for reference to build the body.  
    For Hinges and Joints:  
