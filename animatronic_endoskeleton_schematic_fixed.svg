@@ -1,0 +1,116 @@
+<svg width="1060" height="820" viewBox="0 0 1060 820" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="monospace">
+  <!-- Title -->
+  <text x="320" y="45" font-size="28" font-weight="bold" fill="#333">DIY Animatronic Endoskeleton Schematic Diagram</text>
+
+  <!-- Transmitter Section Box -->
+  <rect x="40" y="80" width="420" height="330" rx="18" fill="#f6faff" stroke="#3a7fd4" stroke-width="2"/>
+  <text x="70" y="110" font-size="20" font-weight="bold" fill="#245">Transmitter ESP32 (DevKit v1)</text>
+  <!-- Joystick 1 -->
+  <rect x="70" y="140" width="110" height="90" rx="10" fill="#eef7fa" stroke="#2d7fa4" stroke-width="1.5"/>
+  <text x="80" y="162" font-size="15" font-weight="bold" fill="#193">Joystick 1</text>
+  <text x="80" y="184" font-size="14" fill="#111">X → GPIO 34</text>
+  <text x="80" y="202" font-size="14" fill="#111">Y → GPIO 35</text>
+  <text x="80" y="220" font-size="14" fill="#111">Btn → GPIO 32</text>
+  <!-- Joystick 2 -->
+  <rect x="70" y="250" width="110" height="90" rx="10" fill="#eef7fa" stroke="#2d7fa4" stroke-width="1.5"/>
+  <text x="80" y="272" font-size="15" font-weight="bold" fill="#193">Joystick 2</text>
+  <text x="80" y="294" font-size="14" fill="#111">X → GPIO 33</text>
+  <text x="80" y="312" font-size="14" fill="#111">Y → GPIO 36</text>
+  <text x="80" y="330" font-size="14" fill="#111">Btn → GPIO 25</text>
+  <!-- Transmitter ESP32 -->
+  <rect x="240" y="170" width="140" height="120" rx="12" fill="#fff" stroke="#444" stroke-width="2"/>
+  <text x="260" y="190" font-size="16" font-weight="bold" fill="#226">ESP32</text>
+  <text x="252" y="210" font-size="13" fill="#000">DevKit v1</text>
+  <text x="252" y="250" font-size="12" fill="#444">3.3V, GND to Joysticks</text>
+  <text x="252" y="268" font-size="12" fill="#666">GPIOs 32/34/35/33/36/25</text>
+  <!-- Joystick 1 to ESP32 lines -->
+  <line x1="180" y1="160" x2="240" y2="200" stroke="#2d7fa4" stroke-width="2"/>
+  <line x1="180" y1="180" x2="240" y2="210" stroke="#2d7fa4" stroke-width="2"/>
+  <line x1="180" y1="200" x2="240" y2="220" stroke="#2d7fa4" stroke-width="2"/>
+  <!-- Joystick 2 to ESP32 lines -->
+  <line x1="180" y1="270" x2="240" y2="240" stroke="#2d7fa4" stroke-width="2"/>
+  <line x1="180" y1="290" x2="240" y2="250" stroke="#2d7fa4" stroke-width="2"/>
+  <line x1="180" y1="310" x2="240" y2="260" stroke="#2d7fa4" stroke-width="2"/>
+  <!-- VCC/GND lines (Transmitter) -->
+  <rect x="100" y="355" width="70" height="26" rx="6" fill="#ffe" stroke="#aaa" stroke-width="1"/>
+  <text x="110" y="372" font-size="13" fill="#bb6c00">3.3V &amp; GND</text>
+  <line x1="135" y1="355" x2="135" y2="250" stroke="#bb6c00" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <line x1="135" y1="355" x2="135" y2="140" stroke="#bb6c00" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <!-- ESP-NOW Wireless -->
+  <text x="370" y="360" font-size="16" fill="#0af" font-weight="bold">📡 ESP-NOW</text>
+  <line x1="380" y1="330" x2="680" y2="330" stroke="#0af" stroke-width="2" stroke-dasharray="7,7"/>
+  <polygon points="680,330 670,324 670,336" fill="#0af"/>
+
+  <!-- Receiver Section Box -->
+  <rect x="600" y="80" width="390" height="320" rx="18" fill="#f6faff" stroke="#879f47" stroke-width="2"/>
+  <text x="630" y="110" font-size="20" font-weight="bold" fill="#47621f">Receiver ESP32 (DevKit v1)</text>
+  <!-- ESP32 Receiver -->
+  <rect x="640" y="150" width="120" height="80" rx="12" fill="#fff" stroke="#444" stroke-width="2"/>
+  <text x="655" y="170" font-size="16" font-weight="bold" fill="#226">ESP32</text>
+  <text x="653" y="190" font-size="13" fill="#000">DevKit v1</text>
+  <text x="653" y="210" font-size="12" fill="#444">GPIO 21 (SDA)</text>
+  <text x="653" y="227" font-size="12" fill="#444">GPIO 22 (SCL)</text>
+  <!-- PCA9685 -->
+  <rect x="800" y="145" width="150" height="120" rx="17" fill="#f7fff3" stroke="#5d9b2b" stroke-width="2"/>
+  <text x="815" y="170" font-size="16" font-weight="bold" fill="#2c7f1a">PCA9685</text>
+  <text x="815" y="190" font-size="12" fill="#444">16ch Servo Driver</text>
+  <text x="815" y="210" font-size="12" fill="#555">VCC: 3.3V</text>
+  <text x="815" y="230" font-size="12" fill="#555">SDA/SCL: GPIO 21/22</text>
+  <text x="815" y="250" font-size="12" fill="#555">V+: 5V</text>
+  <text x="815" y="270" font-size="12" fill="#555">GND: Shared</text>
+  <!-- ESP32 to PCA9685 lines -->
+  <line x1="760" y1="160" x2="800" y2="180" stroke="#5d9b2b" stroke-width="2"/>
+  <text x="765" y="158" font-size="11" fill="#555">SDA</text>
+  <line x1="760" y1="180" x2="800" y2="200" stroke="#5d9b2b" stroke-width="2"/>
+  <text x="765" y="178" font-size="11" fill="#555">SCL</text>
+  <!-- GND Line -->
+  <line x1="760" y1="200" x2="800" y2="220" stroke="#a97a2e" stroke-width="2" stroke-dasharray="2,3"/>
+  <text x="770" y="217" font-size="11" fill="#a97a2e">GND</text>
+  <!-- VCC Line -->
+  <line x1="760" y1="220" x2="800" y2="240" stroke="#bb6c00" stroke-width="2" stroke-dasharray="2,3"/>
+  <text x="770" y="237" font-size="11" fill="#bb6c00">3.3V</text>
+  <!-- PCA9685 to Servo channels -->
+  <rect x="970" y="180" width="70" height="120" rx="10" fill="#f8f3e8" stroke="#b48c1e" stroke-width="1.5"/>
+  <text x="980" y="200" font-size="13" fill="#b48c1e" font-weight="bold">Servos</text>
+  <text x="980" y="220" font-size="11" fill="#444">Channels 0–9</text>
+  <line x1="950" y1="230" x2="970" y2="210" stroke="#b48c1e" stroke-width="2"/>
+  <line x1="950" y1="250" x2="970" y2="230" stroke="#b48c1e" stroke-width="2"/>
+  <line x1="950" y1="270" x2="970" y2="250" stroke="#b48c1e" stroke-width="2"/>
+  <line x1="950" y1="290" x2="970" y2="270" stroke="#b48c1e" stroke-width="2"/>
+  <line x1="950" y1="310" x2="970" y2="290" stroke="#b48c1e" stroke-width="2"/>
+  <text x="990" y="320" font-size="10" fill="#999">(No ESP32 direct)</text>
+  <!-- PCA9685 V+ to Power -->
+  <rect x="815" y="300" width="120" height="40" rx="8" fill="#fff9e2" stroke="#f9a602" stroke-width="1.2"/>
+  <text x="825" y="322" font-size="13" fill="#d2890e">5V External Power</text>
+  <text x="825" y="337" font-size="11" fill="#b48c1e">Battery / Adapter</text>
+  <line x1="870" y1="300" x2="870" y2="265" stroke="#f9a602" stroke-width="2"/>
+  <circle cx="870" cy="265" r="4" fill="#f9a602"/>
+  <text x="880" y="265" font-size="11" fill="#f9a602">V+</text>
+  <line x1="830" y1="340" x2="815" y2="265" stroke="#a97a2e" stroke-width="2" stroke-dasharray="2,3"/>
+  <text x="819" y="260" font-size="10" fill="#a97a2e">GND</text>
+  <!-- GND Connection Notes -->
+  <rect x="600" y="370" width="220" height="28" rx="6" fill="#fffde8" stroke="#c7b300" stroke-width="1"/>
+  <text x="615" y="390" font-size="12" fill="#c7b300">GND shared between ESP32, PCA9685, Power</text>
+
+  <!-- Legend -->
+  <rect x="60" y="430" width="940" height="100" rx="13" fill="#f7f7fa" stroke="#aaa" stroke-width="1"/>
+  <text x="90" y="455" font-size="13" font-weight="bold" fill="#333">Legend:</text>
+  <rect x="95" y="470" width="18" height="7" fill="#3a7fd4"/>
+  <text x="120" y="478" font-size="12" fill="#333">Transmitter Section</text>
+  <rect x="95" y="485" width="18" height="7" fill="#879f47"/>
+  <text x="120" y="493" font-size="12" fill="#333">Receiver Section</text>
+  <rect x="95" y="500" width="18" height="7" fill="#5d9b2b"/>
+  <text x="120" y="508" font-size="12" fill="#333">I2C (SDA/SCL)</text>
+  <line x1="95" y1="517" x2="113" y2="517" stroke="#0af" stroke-width="2" stroke-dasharray="7,7"/>
+  <text x="120" y="522" font-size="12" fill="#333">ESP-NOW Wireless</text>
+  <rect x="260" y="470" width="16" height="7" fill="#ffe"/>
+  <text x="285" y="478" font-size="12" fill="#bb6c00">3.3V, Power, V+</text>
+  <rect x="260" y="485" width="16" height="7" fill="#fff9e2"/>
+  <text x="285" y="493" font-size="12" fill="#d2890e">5V Power</text>
+  <rect x="260" y="500" width="16" height="7" fill="#f8f3e8"/>
+  <text x="285" y="508" font-size="12" fill="#b48c1e">Servo Section</text>
+  <line x1="260" y1="517" x2="276" y2="517" stroke="#a97a2e" stroke-width="2" stroke-dasharray="2,3"/>
+  <text x="285" y="522" font-size="12" fill="#a97a2e">GND (shared)</text>
+  <circle cx="420" cy="470" r="4" fill="#f9a602"/>
+  <text x="430" y="478" font-size="12" fill="#f9a602">V+ Pin</text>
+</svg>
