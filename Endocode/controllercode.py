@@ -48,7 +48,7 @@ def init_wifi_espnow():
         print("Initializing ESP-NOW protocol...")
         e = espnow.ESPNow()
         e.active(True)
-        peer = b'\xFF' * 6  # Broadcast to all receivers
+        peer = #replace with your receiver ESP32 MAC
         e.add_peer(peer)
 
         print("ESP-NOW ready. Broadcasting enabled.")
