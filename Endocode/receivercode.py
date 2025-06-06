@@ -12,7 +12,7 @@ PCA_ADDR = 0x40
 
 # Servo channel definitions
 EYE_H, EYE_V, EYE_BLINK, NECK_LR, NECK_UD = 0, 1, 2, 3, 4
-JAW, TORSO, WAVE1, WAVE2, W 5, 6, 7, 8, 9
+JAW, TORSO, WAVE1, WAVE2, WAVE3 = 5, 6, 7, 8, 9
 
 # --- I2C/PCA9685 Setup ---
 i2c = I2C(0, scl=Pin(22), sda=Pin(21))
@@ -77,12 +77,10 @@ wave_last_time = time.ticks_ms()
 wave_in_progress = False
 
 def wave_animate():
-    # 0: Reset to neutral, 1: wave pose A, 2: wave pose B, repeat
     global wave_step, wave_last_time, wave_active, wave_in_progress
     interval = 200  # ms
     if not wave_active:
         if wave_in_progress:
-            # Ensure always return to neutral at end
             set_servo_angle(WAVE1, 90)
             set_servo_angle(WAVE2, 90)
             set_servo_angle(WAVE3, 90)
@@ -110,7 +108,6 @@ def blink_animate():
     global blink_active, blink_last_time
     now = time.ticks_ms()
     if blink_active:
-        # After 150ms, open eyelid
         if time.ticks_diff(now, blink_last_time) > 150:
             set_servo_angle(EYE_BLINK, 90)
             blink_active = False
@@ -135,10 +132,6 @@ def init_wifi_espnow():
         print(f"ESP-NOW initialization failed: {ex}")
         return None
 
-# --- Initialization ---
-print("Starting servo controller...")
-print("Scanning I2C bus for devices...")
-
 # --- Emergency stop fallback ---
 def hardware_emergency_fallback():
     print("HARDWARE EMERGENCY STOP ACTIVATED! Attempting forced neutral pose.")
@@ -147,7 +140,9 @@ def hardware_emergency_fallback():
         time.sleep_ms(100)
     print("Hardware fallback attempted.")
 
-# Try PCA9685 repeatedly but not forever
+print("Starting servo controller...")
+print("Scanning I2C bus for devices...")
+
 pca_attempts = 0
 while not init_pca9685():
     pca_attempts += 1
@@ -169,15 +164,33 @@ if e is None:
     hardware_emergency_fallback()
     raise SystemExit
 
-jaw_open = emergency_stop = False
+emergency_stop = False
 last_heartbeat = time.ticks_ms()
+last_seq = None
 
 print("Servo controller ready - waiting for commands...")
 
-# --- Main control loop ---
+def process_controls(controls):
+    global wave_active
+    # Eye/neck/torso
+    for field, channel in [
+        ("eye_h", EYE_H), ("eye_v", EYE_V),
+        ("neck_lr", NECK_LR), ("neck_ud", NECK_UD),
+        ("torso_rot", TORSO)
+    ]:
+        if field in controls:
+            set_servo_angle(channel, controls[field])
+    # Blink
+    if controls.get("eye_blink"):
+        perform_blink()
+    # Wave/jaw
+    if "wave_active" in controls:
+        wave_active = controls["wave_active"]
+    if "jaw_open" in controls:
+        set_servo_angle(JAW, 30 if controls["jaw_open"] else 90)
+
 while True:
     try:
-        # Non-blocking animation steps
         wave_animate()
         blink_animate()
 
@@ -200,10 +213,19 @@ while True:
             print(f"JSON decode error: {e}")
             continue
 
+        # Sequence number handling
+        seq = controls.get("seq")
+        if seq is not None:
+            if last_seq is not None:
+                if seq == last_seq:
+                    print(f"[WARN] Duplicate packet seq={seq}, ignoring.")
+                    continue
+                elif (seq - last_seq) % 65536 > 1:
+                    print(f"[WARN] Missed packets! Last seq={last_seq}, now seq={seq}")
+            last_seq = seq
+
         if controls.get("heartbeat"):
             last_heartbeat = now
-            if emergency_stop:
-                print("Heartbeat received - system still in emergency stop")
             continue
 
         if controls.get("emergency_stop"):
@@ -221,26 +243,7 @@ while True:
         if emergency_stop:
             continue
 
-        # Servo controls
-        for field, channel in [
-            ("eye_h", EYE_H), ("eye_v", EYE_V),
-            ("neck_lr", NECK_LR), ("neck_ud", NECK_UD),
-            ("torso_rot", TORSO)
-        ]:
-            if field in controls:
-                set_servo_angle(channel, controls[field])
-
-        # Blinking (prevent repeated triggers)
-        if controls.get("eye_blink"):
-            perform_blink()
-
-        # Non-blocking wave: set flag only
-        if "wave_active" in controls:
-            wave_active = controls["wave_active"]
-
-        if "jaw_open" in controls:
-            jaw_open = controls["jaw_open"]
-            set_servo_angle(JAW, 30 if jaw_open else 90)
+        process_controls(controls)
 
     except OSError as e:
         print(f"Communication error: {e}")
