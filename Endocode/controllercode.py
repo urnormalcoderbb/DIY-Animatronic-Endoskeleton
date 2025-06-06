@@ -4,10 +4,39 @@ from machine import Pin, ADC
 import espnow
 import network
 
+# =================== Debounced Button Helper ===================
+
+class DebouncedButton:
+    def __init__(self, pin, debounce_ms=40):
+        self.pin = pin
+        self.debounce_ms = debounce_ms
+        self.last_state = self.pin.value()
+        self.last_time = time.ticks_ms()
+        self._pressed = False
+
+    def update(self):
+        now = time.ticks_ms()
+        state = self.pin.value()
+        if state != self.last_state:
+            if time.ticks_diff(now, self.last_time) > self.debounce_ms:
+                self.last_state = state
+                self.last_time = now
+                self._pressed = not state  # Active LOW logic
+        else:
+            self._pressed = False
+        return self._pressed
+
+    def is_pressed(self):
+        # Returns True only on rising edge (button press)
+        return self.update()
+
+    def raw(self):
+        # Returns current (possibly bouncing) hardware value
+        return not self.pin.value()
+
 # =================== Communication Setup ===================
 
 def init_wifi_espnow():
-    """Initialize WiFi and ESP-NOW for controller. Handles errors gracefully."""
     try:
         print("Setting up WiFi interface...")
         wlan = network.WLAN(network.STA_IF)
@@ -32,10 +61,8 @@ def init_wifi_espnow():
 # =================== Hardware Initialization ===================
 
 def init_hardware():
-    """Initialize joystick ADCs and button pins. Returns joystick ADCs and pins."""
     try:
         print("Setting up joystick hardware...")
-        # Format: (X ADC pin, Y ADC pin, Button Pin)
         pin_configs = [
             (34, 35, 27),  # Joy1
             (32, 33, 25)   # Joy2
@@ -45,13 +72,11 @@ def init_hardware():
             joys.append((
                 ADC(Pin(x_pin, Pin.IN)),
                 ADC(Pin(y_pin, Pin.IN)),
-                Pin(btn_pin, Pin.IN, Pin.PULL_UP)
+                DebouncedButton(Pin(btn_pin, Pin.IN, Pin.PULL_UP))
             ))
-        # Set ADC range to 0-3.3V
         for joy in joys:
             joy[0].atten(ADC.ATTN_11DB)
             joy[1].atten(ADC.ATTN_11DB)
-        # Display initial readings
         for idx, (jx, jy, _) in enumerate(joys, 1):
             print(f"    Joy{idx}: X={jx.read()}  Y={jy.read()}")
         return (*joys[0], *joys[1])
@@ -61,7 +86,6 @@ def init_hardware():
         return (None,) * 6
 
 def read_joy(adc):
-    """Convert ADC value to a servo angle (0-180) with deadzone for neutral."""
     try:
         raw = adc.read()
         center, deadzone = 2048, 50
@@ -72,18 +96,9 @@ def read_joy(adc):
         print(f"Joystick read error: {e}")
         return 90
 
-def is_pressed(pin):
-    """Return True if button is pressed (active low)."""
-    try:
-        return not pin.value()
-    except Exception as e:
-        print(f"Button read error: {e}")
-        return False
-
 # =================== State Management ===================
 
 def load_state():
-    """Load previously saved controller state from file, if it exists."""
     try:
         with open("state.json", "r") as f:
             state = ujson.load(f)
@@ -96,7 +111,6 @@ def load_state():
     return {"wave_active": False, "jaw_open": False}
 
 def save_state(wave_active, jaw_open):
-    """Save current controller state to file."""
     try:
         with open("state.json", "w") as f:
             ujson.dump({"wave_active": wave_active, "jaw_open": jaw_open}, f)
@@ -108,27 +122,49 @@ def save_state(wave_active, jaw_open):
 
 # =================== ESP-NOW Messaging ===================
 
-def send_message(e, peer, message, msg_type="data"):
-    """Send ESP-NOW message. Log important message types."""
-    try:
-        e.send(peer, ujson.dumps(message))
-        if msg_type in {"emergency", "unlock", "error"}:
-            print(f"{msg_type.title()} message sent.")
-        return True
-    except Exception as ex:
-        print(f"Send error ({msg_type}): {ex}")
-        print("    [Hint] Check ESP-NOW connection to receiver module.")
+class ReliableSender:
+    """Resends data on failure; adds sequence numbers for data loss protection."""
+    def __init__(self, e, peer):
+        self.e = e
+        self.peer = peer
+        self.seq = 0
+        self.last_packet = None
+        self.last_type = None
+        self.acknowledged = True  # True if last packet was acknowledged/sent
+
+    def send(self, message, msg_type="data"):
+        # Attach sequence number for data packets and heartbeats
+        if msg_type in ("data", "heartbeat"):
+            message["seq"] = self.seq
+        try:
+            self.e.send(self.peer, ujson.dumps(message))
+            self.last_packet = message
+            self.last_type = msg_type
+            self.acknowledged = True
+            if msg_type in {"emergency", "unlock", "error"}:
+                print(f"{msg_type.title()} message sent.")
+            if msg_type == "data":
+                self.seq = (self.seq + 1) % 65536
+            return True
+        except Exception as ex:
+            print(f"Send error ({msg_type}): {ex}")
+            print("    [Hint] Check ESP-NOW connection to receiver module.")
+            self.acknowledged = False
+            return False
+
+    def resend_last(self):
+        if self.last_packet is not None:
+            print("[WARN] Resending last control packet...")
+            return self.send(self.last_packet, self.last_type)
         return False
 
 # =================== Control Logic ===================
 
 def check_emergency_stop(btn1, btn2):
-    """Both buttons pressed = emergency stop."""
-    return is_pressed(btn1) and is_pressed(btn2)
+    return btn1.raw() and btn2.raw()
 
 def check_unlock_combo(btn, combo, now):
-    """Check if button triple-clicked for unlock (within 2 seconds)."""
-    if is_pressed(btn):
+    if btn.is_pressed():
         combo.append(now)
         # Keep only clicks within last 2 seconds
         combo[:] = [t for t in combo if time.ticks_diff(now, t) < 2000]
@@ -150,6 +186,7 @@ def main():
     if e is None:
         print("CRITICAL: Communication not initialized. Exiting.")
         raise SystemExit
+    sender = ReliableSender(e, peer)
 
     # 2. Hardware
     print("\n[2/3] Hardware Setup:")
@@ -167,7 +204,7 @@ def main():
     # ====== Control Variables ======
     last_send = heartbeat_timer = 0
     unlock_combo, unlocked = [], True
-    last_joy2_btn_state = last_blink_state = False
+    last_joy2_btn_press = False
     joy2_btn_press_time = 0
 
     print("\n" + "=" * 55)
@@ -186,7 +223,7 @@ def main():
 
             # --- Emergency stop ---
             if check_emergency_stop(joy1_btn, joy2_btn):
-                if send_message(e, peer, {"emergency_stop": True}, "emergency"):
+                if sender.send({"emergency_stop": True}, "emergency"):
                     unlocked = False
                 time.sleep(0.5)
                 continue
@@ -194,12 +231,12 @@ def main():
             # --- Unlock combo ---
             if not unlocked:
                 if check_unlock_combo(joy1_btn, unlock_combo, now):
-                    if send_message(e, peer, {"unlock": True}, "unlock"):
+                    if sender.send({"unlock": True}, "unlock"):
                         unlocked = True
                     time.sleep(0.3)
                 # Heartbeat to prevent sleep on receiver
                 if time.ticks_diff(now, heartbeat_timer) > 1500:
-                    send_message(e, peer, {"heartbeat": True}, "heartbeat")
+                    sender.send({"heartbeat": True}, "heartbeat")
                     heartbeat_timer = now
                 if time.ticks_diff(now, last_send) > 10000:
                     print("System LOCKED - triple-click Joy1 to unlock")
@@ -212,22 +249,19 @@ def main():
             torso_rot = read_joy(joy2_x)
 
             # Eye blink (Joy1 button)
-            current_blink = is_pressed(joy1_btn)
-            blink_trigger = current_blink and not last_blink_state
-            last_blink_state = current_blink
+            blink_trigger = joy1_btn.is_pressed()
 
             # Wave/Jaw toggle (Joy2 button, debounce)
-            current_joy2_btn = is_pressed(joy2_btn)
-            if current_joy2_btn and not last_joy2_btn_state:
+            if joy2_btn.is_pressed():
                 joy2_btn_press_time = now
-            elif not current_joy2_btn and last_joy2_btn_state:
+            elif not joy2_btn.raw() and last_joy2_btn_press:
                 press_dur = time.ticks_diff(now, joy2_btn_press_time)
                 if 50 <= press_dur <= 1000:  # Short press
                     wave_active = not wave_active
                     jaw_open = wave_active
                     save_state(wave_active, jaw_open)
                     print(f"  [INFO] Wave: {'ON' if wave_active else 'OFF'}, Jaw: {'OPEN' if jaw_open else 'CLOSED'}")
-            last_joy2_btn_state = current_joy2_btn
+            last_joy2_btn_press = joy2_btn.raw()
 
             # --- Build and send control packet ---
             controls = {
@@ -237,14 +271,14 @@ def main():
                 "eye_blink": blink_trigger,
                 "wave_active": wave_active, "jaw_open": jaw_open
             }
-            if send_message(e, peer, controls, "control"):
+            if sender.send(controls, "data"):
                 last_send = now
-            elif time.ticks_diff(now, last_send) > 5000:
-                print("Communication issues - check receiver module.")
+            elif time.ticks_diff(now, last_send) > 500:
+                sender.resend_last()
 
             # --- Heartbeat ---
             if time.ticks_diff(now, heartbeat_timer) > 1500:
-                send_message(e, peer, {"heartbeat": True}, "heartbeat")
+                sender.send({"heartbeat": True}, "heartbeat")
                 heartbeat_timer = now
 
             time.sleep(0.05)  # ~20Hz
@@ -252,13 +286,13 @@ def main():
         except KeyboardInterrupt:
             print("\n" + "=" * 55)
             print("Controller stopped by user. Sending final emergency stop...")
-            send_message(e, peer, {"emergency_stop": True}, "emergency")
+            sender.send({"emergency_stop": True}, "emergency")
             print("Controller shutdown complete.")
             break
         except Exception as e:
             print(f"Main loop error: {e}")
             try:
-                send_message(e, peer, {"emergency_stop": True}, "error")
+                sender.send({"emergency_stop": True}, "error")
             except:
                 pass
             time.sleep(1)
