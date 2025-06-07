@@ -49,7 +49,7 @@ In future updates, I’ll provide STL/3D files so you can print the mechanical p
    Gather your ESP32 modules, servos, and other listed materials.
 
 3. **Upload the code:**  
-   Flash the provided code to both ESP32s using Thonny IDE or any ESP32-Micropython-compatible platform.
+   Flash the provided code to both ESP32s using Thonny IDE or any ESP32-Micropython-compatible platform. To get the MAC of the Receiver ESP32 , use the getmac.py in the test codes directory.
 
 4. **Build the endoskeleton:**  
    **Please refer to the [build plans](https://github.com/urnormalcoderbb/DIY-Animatronic-Endoskeleton/tree/main/Endo%20build%20plan%20PDFS) directory for detailed reference and step-by-step guidance!**  
