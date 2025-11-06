@@ -4,7 +4,7 @@
 
 Welcome to the DIY Animatronic Endoskeleton project! This project guides you through building your own animatronic endoskeleton that can wave and interact with people using affordable, easy-to-find components—perfect for beginners with no prior robotics experience.
 
-## 🌟 Key Features
+## Key Features
 
 - **Wireless Control**: Powered by two ESP32 WROOM microcontrollers for reliable remote operation
 - **Beginner-Friendly**: Designed for hobbyists, makers, and anyone interested in animatronics
@@ -13,7 +13,7 @@ Welcome to the DIY Animatronic Endoskeleton project! This project guides you thr
 - **Open Source**: Complete with documentation, code, and upcoming 3D-printable files
 - **Expandable**: Basic foundation that can be enhanced with additional features
 
-## 🛠️ Required Materials
+## Required Materials
 
 ### Electronics
 - 2× ESP32 WROOM microcontrollers
@@ -31,7 +31,7 @@ Welcome to the DIY Animatronic Endoskeleton project! This project guides you thr
 - Cardboard (prototyping and frame construction)
 - Paper clips (servo linkages)
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Setup
 ```sh
@@ -60,7 +60,7 @@ cd DIY-Animatronic-Endoskeleton
    - Reference the Ultimate Animatronic Endoskeleton Project Plan P3 PDF for joint designs
    - Search online for basic robotics joints and hinges for inspiration
 
-## 🔧 Testing & Usage
+##  Testing & Usage
 
 1. **Power Up**
    - Turn on both ESP32 modules
@@ -78,29 +78,29 @@ cd DIY-Animatronic-Endoskeleton
    - Connection testers
    - Wireless communication tests
 
-## 📑 Project Status
+##  Project Status
 
 ### Completed
-- ✅ ESP32 wireless communication implementation
-- ✅ Comprehensive build instructions
-- ✅ Test code suite and documentation
+-  ESP32 wireless communication implementation
+-  Comprehensive build instructions
+-  Test code suite and documentation
 
 ### In Progress
-- 🔄 3D printable files creation
-- 🔄 Feature expansion (sensors, degrees of freedom)
+-  3D printable files creation
+-  Feature expansion (sensors, degrees of freedom)
 
-## 🤝 Contributing
+##  Contributing
 
 We welcome contributions! Feel free to:
 - Open issues for bugs or suggestions
 - Submit pull requests for improvements
 - Share your builds and modifications
 
-## 📬 Contact & Support
+##  Contact & Support
 
 - Open an [issue](https://github.com/urnormalcoderbb/DIY-Animatronic-Endoskeleton/issues) for questions
 - Visit [my GitHub profile](https://github.com/urnormalcoderbb) for direct contact
 
-## 📜 License
+##  License
 
 This project is licensed under the [MIT License](LICENSE).
